@@ -38,28 +38,29 @@
     text-decoration: underline;
   }
   
-  /* 3) Projects grid */
+  /* 3) Projects section */
   .projects h2 {
     margin-bottom: 1rem;
   }
-/* Container for all items */
-.projects-list {
+  
+  /* Container for all project rows */
+  .projects-list {
     display: flex;
     flex-direction: column;
-    gap: 2rem;               /* space between rows */
+    gap: 2rem;    /* vertical space between each project */
     margin-top: 1rem;
   }
   
-  /* Each row: image/title on left, text on right */
+  /* Each row: card on left, description on right */
   .project-item {
-    display: grid;
-    grid-template-columns: 200px 1fr; /* left col fixed 200px, right auto */
-    column-gap: 1.5rem;               /* space between columns */
-    align-items: start;               /* top-align image & text */
+    display: flex;
+    align-items: flex-start;  /* top-align both columns */
+    gap: 1.5rem;              /* horizontal space between columns */
   }
   
-  /* Card styling stays roughly the same */
+  /* Left column: fixed-width project card */
   .project-card {
+    flex: 0 0 200px;          /* don’t grow or shrink, stay 200px */
     border: 1px solid #ddd;
     border-radius: 8px;
     overflow: hidden;
@@ -72,14 +73,18 @@
     object-fit: cover;
   }
   .project-card h3 {
-    padding: 0.5rem;
     margin: 0;
+    padding: 0.5rem;
   }
   
-  /* Description box */
+  /* Right column: description fills remaining space */
+  .project-desc {
+    flex: 1;                  /* take up all leftover space */
+  }
   .project-desc p {
-    margin: 0;              /* reset default <p> margins */
+    margin: 0;                /* reset default paragraph margins */
     line-height: 1.4;
   }
+  
   
   
