@@ -86,5 +86,32 @@
     line-height: 1.4;
   }
   
-  
-  
+  /* Style for project detail pages */
+.project-detail {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.project-detail p {
+  margin-bottom: 1rem;
+}
+
+/* Make self-hosted videos responsive */
+.project-detail video {
+  width: 100%;
+  max-width: 640px;   /* or whatever your native resolution is */
+  height: auto;
+  display: block;
+  margin: 1rem auto;
+}
+
+/* If you embed via iframe (YouTube/Vimeo), keep it responsive too */
+.project-detail iframe {
+  width: 100%;
+  max-width: 640px;
+  aspect-ratio: 16 / 9;  /* modern browsers */
+  border: none;
+  display: block;
+  margin: 1rem auto;
+}
