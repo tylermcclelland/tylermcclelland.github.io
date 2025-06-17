@@ -76,6 +76,16 @@
     margin: 0;
     padding: 0.5rem;
   }
+
+  .project-card a {
+    text-decoration: none;
+    text-decoration-color: cornflowerblue;
+
+  }
+
+  .project-card a:hover {
+    text-decoration: underline;
+  }
   
   /* Right column: description fills remaining space */
   .project-desc {
