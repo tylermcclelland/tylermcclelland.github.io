@@ -37,6 +37,15 @@
   .social-links a:hover {
     text-decoration: underline;
   }
+
+  .header {
+    text-decoration: none;
+    color: black;
+    
+  }
+  .header:hover {
+    text-decoration: underline;
+  }
   
   /* 3) Projects section */
   .projects h2 {
@@ -79,7 +88,7 @@
 
   .project-card a {
     text-decoration: none;
-    text-decoration-color: cornflowerblue;
+    color: cornflowerblue;
 
   }
 
