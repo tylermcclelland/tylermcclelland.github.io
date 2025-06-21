@@ -1,3 +1,21 @@
+:root {
+  /* Light theme defaults */
+  --bg: #fff;
+  --fg: #000;
+  --card-bg: #f9f9f9;
+  --card-border: #ddd;
+  --link: #0366d6;
+}
+
+[data-theme="dark"] {
+  /* Dark theme overrides */
+  --bg: #121212;
+  --fg: #e0e0e0;
+  --card-bg: #1e1e1e;
+  --card-border: #333;
+  --link: #58a6ff;
+}
+
 /* 1) Base resets & type */
 * {
     box-sizing: border-box;
@@ -5,11 +23,17 @@
     padding: 0;
   }
   body {
+    background-color: var(--bg);
+    color: var(--fg);
+
     font-family: system-ui, sans-serif;
     line-height: 1.5;
     max-width: 800px;
     margin: 0 auto;
     padding: 1rem;
+  }
+  a {
+    color: var(--link);
   }
   
   /* 2) Intro header layout */
@@ -69,6 +93,9 @@
   
   /* Left column: fixed-width project card */
   .project-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border);
+
     flex: 0 0 200px;          /* don’t grow or shrink, stay 200px */
     border: 1px solid #ddd;
     border-radius: 8px;
