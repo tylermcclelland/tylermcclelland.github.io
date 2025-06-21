@@ -134,3 +134,19 @@
   display: block;
   margin: 1rem auto;
 }
+
+/*dark mode button*/
+#theme-toggle {
+  position: fixed;      
+  top: 1rem;         
+  right: 1rem;    
+  z-index: 1000;          
+  
+  /* change styling, doesn't look spectacular... */
+  background: var(--card-bg);
+  color: var(--fg);
+  border: 1px solid var(--card-border);
+  padding: 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
