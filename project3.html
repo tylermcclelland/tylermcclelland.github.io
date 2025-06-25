@@ -19,6 +19,149 @@
             <li></li>
             <li></li>        
         </ul>
+        <p>**Value AI Full‑Stack Setup**
+
+            This document summarizes the minimal configuration and code snippets for your React frontend and FastAPI backend so that your `VITE_API_URL` env var, fetch call, and JSON keys all align correctly.
+            
+            ---
+            
+            ## 1. Frontend (`frontend/`)
+            
+            ### 1.1 `.env` (ignored by Git)
+            
+            Create `frontend/.env` with:
+            
+            ```
+            VITE_API_URL=http://localhost:8000
+            ```
+            
+            This makes `import.meta.env.VITE_API_URL` available in your code.
+            
+            ### 1.2 `src/App.jsx`
+            
+            Replace the `handleSubmit` block with:
+            
+            ```jsx
+            import React, { useState } from 'react';
+            import './index.css';
+            
+            function App() {
+              const [file, setFile] = useState(null);
+              const [result, setResult] = useState('');
+            
+              const handleSubmit = async (e) => {
+                e.preventDefault();
+                if (!file) return alert('Please select an image.');
+            
+                const formData = new FormData();
+                formData.append('image', file);
+            
+                try {
+                  const API_URL = import.meta.env.VITE_API_URL;  // from .env
+                  const res = await fetch(`${API_URL}/upload`, {
+                    method: 'POST',
+                    body: formData,
+                  });
+                  const data = await res.json();
+                  setResult(`Estimated value: $${data.value ?? 'unknown'}`);
+                } catch (err) {
+                  console.error(err);
+                  setResult('Error estimating car value.');
+                }
+              };
+        <!--
+              return (
+                <div className="container">
+                  <h1>Value AI</h1>
+                  <form onSubmit={handleSubmit}>
+                    <input type="file" accept="image/*" onChange={(e) => setFile(e.target.files[0])} />
+                    <button type="submit">Estimate Value</button>
+                  </form>
+                  <div className="result">{result}</div>
+                </div>
+              );
+            }
+        -->
+            export default App;
+            ```
+            
+            > **Note:** This expects the backend to return JSON with a `value` field. See below.
+            
+            ---
+            
+            \## 2. Backend (`backend/`)
+            
+            ### 2.1 `main.py`
+            
+            Ensure your FastAPI endpoint returns `{ "value": <number> }`:
+            
+            ```python
+            # backend/main.py
+            import os
+            from fastapi import FastAPI, File, UploadFile
+            import openai
+            from dotenv import load_dotenv
+            
+            load_dotenv()  # reads OPENAI_API_KEY from project root .env
+            openai.api_key = os.getenv('OPENAI_API_KEY')
+            
+            app = FastAPI()
+            
+            @app.post("/upload")
+            async def upload_image(image: UploadFile = File(...)):
+                img_bytes = await image.read()
+                response = openai.ChatCompletion.create(
+                    model="gpt-4o",
+                    messages=[{
+                      "role": "user",
+                      "content": (
+                        "Please identify the make, model, and year of this car, "
+                        "and give an approximate current market value in USD."
+                      )
+                    }],
+                    files=[{ "file": img_bytes, "filename": image.filename, "purpose": "vision" }]
+                )
+                estimate = response.choices[0].message.content
+                # parse `estimate` to a number if needed
+                return {"value": estimate}
+            ```
+            
+            ### 2.2 Environment
+            
+            * Create a **root** `.env` (in `valueai/`), add:
+            
+              ```env
+              OPENAI_API_KEY=sk-…your key here…
+              ```
+            * Add to `.gitignore`: `*.env`
+            * Activate your venv and run:
+            
+              ```bash
+              uvicorn backend.main:app --reload --port 8000
+              ```
+            
+            ---
+            
+            ## 3. `.gitignore` (root)
+            
+            ```
+            # Node frontend
+            /frontend/node_modules/
+            /frontend/dist/
+            # Python backend
+            .venv/
+            /backend/__pycache__/
+            *.py[cod]
+            # Env files
+            *.env
+            
+            # Editor/OS
+            .vscode/
+            .DS_Store
+            ```
+            
+            With these pieces in place, your frontend fetch call (`data.value`) and backend response (`{"value":…}`) will align, your environment variables stay secure, and your repo remains clean.
+        </p>
     </section>
 <script src="dark-mode.js"></script>
 </body>
